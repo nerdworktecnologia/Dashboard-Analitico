@@ -1,4 +1,4 @@
-import { BarChart3, BarChart, LineChart as LineIcon, PieChart as PieIcon, Activity, Target, CircleDot } from 'lucide-react';
+import { BarChart3, BarChart, LineChart as LineIcon, PieChart as PieIcon, Activity, Target, CircleDot, Hexagon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDashboard } from '@/context/DashboardContext';
 import { ChartType } from '@/types/dashboard';
@@ -11,20 +11,22 @@ const chartTypes: { type: ChartType; label: string; icon: React.ReactNode }[] = 
   { type: 'pie', label: 'Pizza', icon: <PieIcon className="h-4 w-4" /> },
   { type: 'donut', label: 'Rosca', icon: <CircleDot className="h-4 w-4" /> },
   { type: 'radar', label: 'Radar', icon: <Target className="h-4 w-4" /> },
-  { type: 'scatter', label: 'Scatter', icon: <CircleDot className="h-4 w-4" /> },
+  { type: 'scatter', label: 'Scatter', icon: <Hexagon className="h-4 w-4" /> },
 ];
 
 export function ChartTypeSelector() {
   const { chartType, setChartType } = useDashboard();
 
   return (
-    <div className="flex flex-wrap gap-1">
+    <div className="flex flex-wrap gap-1.5">
       {chartTypes.map(({ type, label, icon }) => (
         <Button
           key={type}
           variant={chartType === type ? 'default' : 'outline'}
           size="sm"
-          className="text-xs gap-1"
+          className={`text-xs gap-1.5 transition-all duration-200 ${
+            chartType === type ? 'shadow-md scale-[1.02]' : 'hover:border-primary/30 hover:bg-primary/5'
+          }`}
           onClick={() => setChartType(type)}
         >
           {icon} {label}
