@@ -1,14 +1,63 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useCallback } from 'react';
+import { DashboardProvider, useDashboard } from '@/context/DashboardContext';
+import { Header } from '@/components/dashboard/Header';
+import { Sidebar } from '@/components/dashboard/Sidebar';
+import { ChartArea } from '@/components/dashboard/ChartArea';
+import { DataPanel } from '@/components/dashboard/DataPanel';
+import { exportPNG, exportPDF, exportExcel, exportJSON, exportPowerBI, exportPBIT, handlePrint } from '@/utils/exportUtils';
+import { toast } from '@/hooks/use-toast';
 
-const Index = () => {
+function DashboardContent() {
+  const [panelMode, setPanelMode] = useState<'file' | 'text' | 'history' | null>(null);
+  const { activeDataset, darkMode } = useDashboard();
+
+  const handleExport = useCallback(async (format: string) => {
+    if (format === 'print') {
+      handlePrint();
+      return;
+    }
+
+    if (!activeDataset && ['excel', 'json', 'powerbi', 'pbit'].includes(format)) {
+      toast({ title: 'Sem dados', description: 'Importe dados antes de exportar.', variant: 'destructive' });
+      return;
+    }
+
+    try {
+      switch (format) {
+        case 'png': await exportPNG('chart-export-area'); break;
+        case 'pdf': await exportPDF('chart-export-area'); break;
+        case 'excel': exportExcel(activeDataset!); break;
+        case 'json': exportJSON(activeDataset!); break;
+        case 'powerbi': exportPowerBI(activeDataset!); break;
+        case 'pbit': exportPBIT(activeDataset!); break;
+      }
+      toast({ title: 'Exportado!', description: `Arquivo ${format.toUpperCase()} gerado com sucesso.` });
+    } catch {
+      toast({ title: 'Erro', description: 'Falha ao exportar.', variant: 'destructive' });
+    }
+  }, [activeDataset]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className={`h-screen flex flex-col ${darkMode ? 'dark' : ''}`}>
+      <Header />
+      <div className="flex flex-1 overflow-hidden bg-background">
+        <Sidebar
+          onImportFile={() => setPanelMode(panelMode === 'file' ? null : 'file')}
+          onImportText={() => setPanelMode(panelMode === 'text' ? null : 'text')}
+          onShowHistory={() => setPanelMode(panelMode === 'history' ? null : 'history')}
+          onExport={handleExport}
+        />
+        <ChartArea />
+        <DataPanel mode={panelMode} onClose={() => setPanelMode(null)} />
       </div>
     </div>
   );
-};
+}
 
-export default Index;
+export default function Index() {
+  return (
+    <DashboardProvider>
+      <DashboardContent />
+    </DashboardProvider>
+  );
+}
