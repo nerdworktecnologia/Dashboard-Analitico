@@ -11,7 +11,7 @@ import { Upload, LayoutGrid, Maximize2, X, Palette, Type } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChartTypeSelector } from './ChartTypeSelector';
 import { Button } from '@/components/ui/button';
-import { PRELOADED_CHARTS, PreloadedChart } from '@/data/preloadedCharts';
+import { PRELOADED_CHARTS, PreloadedChart, ChartSplitView } from '@/data/preloadedCharts';
 
 const ALL_CHART_TYPES: ChartType[] = ['column', 'bar', 'line', 'area', 'pie', 'donut', 'radar', 'scatter'];
 
@@ -224,6 +224,45 @@ export function ChartArea() {
     }
   };
 
+  const renderSplitChart = (
+    chart: PreloadedChart,
+    splitView: ChartSplitView,
+    height: number = 450,
+    chartColors: string[] = defaultColors,
+  ) => {
+    const { leftTitle, rightTitle, leftKeys, rightKeys, displayKeys } = splitView;
+    const renderHalf = (keys: string[], title: string) => {
+      const mappedData = chart.data.map(row => {
+        const mapped: Record<string, any> = { [chart.labelKey]: row[chart.labelKey] };
+        keys.forEach((k, i) => { mapped[displayKeys[i]] = row[k]; });
+        return mapped;
+      });
+      return (
+        <div className="flex-1 min-w-0">
+          <h4 className="text-[10px] font-semibold text-center text-foreground mb-1">{title}</h4>
+          <ResponsiveContainer width="100%" height={height}>
+            <BarChart data={mappedData} layout="vertical">
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis type="number" tick={darkTick} domain={[0, 100]} ticks={[0, 20, 40, 60, 80, 100]} />
+              <YAxis dataKey={chart.labelKey} type="category" width={120} tick={darkTickSmall} />
+              <Tooltip contentStyle={tooltipStyle} />
+              <Legend wrapperStyle={darkLegend} />
+              {displayKeys.map((key, i) => (
+                <Bar key={key} dataKey={key} fill={chartColors[i % chartColors.length]} radius={[0, 4, 4, 0]} animationDuration={800} animationBegin={i * 100} />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      );
+    };
+    return (
+      <div className="flex gap-2">
+        {renderHalf(leftKeys, leftTitle)}
+        {renderHalf(rightKeys, rightTitle)}
+      </div>
+    );
+  };
+
   // Render preloaded 9 charts
   if (showPreloaded && !activeDataset) {
     if (expandedPreloaded) {
@@ -288,7 +327,9 @@ export function ChartArea() {
             </div>
           </div>
           <div id="chart-export-area" className="bg-card rounded-xl border border-border p-6 shadow-sm" style={{ fontFamily: (fontOverrides[chart.id] || 'Inter (padrão)').replace(' (padrão)', '') }}>
-            {renderChartGeneric(chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 500, expandedColors)}
+            {chart.splitView
+              ? renderSplitChart(chart, chart.splitView, 500, expandedColors)
+              : renderChartGeneric(chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 500, expandedColors)}
           </div>
         </div>
       );
@@ -385,7 +426,9 @@ export function ChartArea() {
                 </div>
               </div>
               <div className="flex-1 min-h-0">
-                {renderChartGeneric(chartOverrides[chart.id] || chart.chartType, chart.data, chart.labelKey, chart.dataKeys, chart.data.length > 12 ? 450 : 250, chartColors)}
+                {chart.splitView
+                  ? renderSplitChart(chart, chart.splitView, chart.data.length > 12 ? 450 : 250, chartColors)
+                  : renderChartGeneric(chartOverrides[chart.id] || chart.chartType, chart.data, chart.labelKey, chart.dataKeys, chart.data.length > 12 ? 450 : 250, chartColors)}
               </div>
             </div>
             );

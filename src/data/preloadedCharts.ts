@@ -1,5 +1,13 @@
 import { ChartType } from '@/types/dashboard';
 
+export interface ChartSplitView {
+  leftTitle: string;
+  rightTitle: string;
+  leftKeys: string[];
+  rightKeys: string[];
+  displayKeys: string[]; // legend labels for left/right (same order)
+}
+
 export interface PreloadedChart {
   id: string;
   title: string;
@@ -8,6 +16,7 @@ export interface PreloadedChart {
   labelKey: string;
   dataKeys: string[];
   data: Record<string, any>[];
+  splitView?: ChartSplitView;
 }
 
 export const PRELOADED_CHARTS: PreloadedChart[] = [
@@ -112,6 +121,13 @@ export const PRELOADED_CHARTS: PreloadedChart[] = [
     chartType: 'bar',
     labelKey: 'Atividade',
     dataKeys: ['Baixo Uso Grad (%)', 'Rejeição Grad (%)', 'Baixo Uso Pós (%)', 'Rejeição Pós (%)'],
+    splitView: {
+      leftTitle: 'Graduação',
+      rightTitle: 'Pós-Graduação',
+      leftKeys: ['Baixo Uso Grad (%)', 'Rejeição Grad (%)'],
+      rightKeys: ['Baixo Uso Pós (%)', 'Rejeição Pós (%)'],
+      displayKeys: ['Baixo Uso', 'Rejeição Ética'],
+    },
     data: [
       { Atividade: 'Escrita acadêmica', 'Baixo Uso Grad (%)': 76.47, 'Rejeição Grad (%)': 57.84, 'Baixo Uso Pós (%)': 73.84, 'Rejeição Pós (%)': 55.60 },
       { Atividade: 'Textos administrativos', 'Baixo Uso Grad (%)': 43.57, 'Rejeição Grad (%)': 55.01, 'Baixo Uso Pós (%)': 37.36, 'Rejeição Pós (%)': 65.05 },
