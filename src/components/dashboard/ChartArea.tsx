@@ -385,7 +385,7 @@ export function ChartArea() {
                 </div>
               </div>
               <div className="flex-1 min-h-0">
-                {renderChartGeneric(chartOverrides[chart.id] || chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 250, chartColors)}
+                {renderChartGeneric(chartOverrides[chart.id] || chart.chartType, chart.data, chart.labelKey, chart.dataKeys, chart.data.length > 12 ? 450 : 250, chartColors)}
               </div>
             </div>
             );
