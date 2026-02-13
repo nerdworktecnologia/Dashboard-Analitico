@@ -6,8 +6,8 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { useDashboard } from '@/context/DashboardContext';
-import { THEMES, ChartType } from '@/types/dashboard';
-import { Upload, LayoutGrid, Maximize2, X } from 'lucide-react';
+import { THEMES, FONTS, ChartType, ThemeName } from '@/types/dashboard';
+import { Upload, LayoutGrid, Maximize2, X, Palette, Type } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChartTypeSelector } from './ChartTypeSelector';
 import { Button } from '@/components/ui/button';
@@ -24,15 +24,25 @@ const tooltipStyle = {
 
 export function ChartArea() {
   const { activeDataset, chartType, theme } = useDashboard();
-  const colors = THEMES[theme].colors;
+  const defaultColors = THEMES[theme].colors;
   const [gridMode, setGridMode] = useState(false);
   const [expandedChart, setExpandedChart] = useState<ChartType | null>(null);
   const [showPreloaded, setShowPreloaded] = useState(true);
   const [expandedPreloaded, setExpandedPreloaded] = useState<string | null>(null);
   const [chartOverrides, setChartOverrides] = useState<Record<string, ChartType>>({});
+  const [themeOverrides, setThemeOverrides] = useState<Record<string, ThemeName>>({});
+  const [fontOverrides, setFontOverrides] = useState<Record<string, string>>({});
 
   const handleChartTypeChange = (chartId: string, newType: ChartType) => {
     setChartOverrides(prev => ({ ...prev, [chartId]: newType }));
+  };
+
+  const handleThemeChange = (chartId: string, newTheme: ThemeName) => {
+    setThemeOverrides(prev => ({ ...prev, [chartId]: newTheme }));
+  };
+
+  const handleFontChange = (chartId: string, newFont: string) => {
+    setFontOverrides(prev => ({ ...prev, [chartId]: newFont }));
   };
 
   const chartData = useMemo(() => {
@@ -64,6 +74,7 @@ export function ChartArea() {
     lKey: string,
     dKeys: string[],
     height: number = 300,
+    chartColors: string[] = defaultColors,
   ) => {
     switch (type) {
       case 'bar':
@@ -76,7 +87,7 @@ export function ChartArea() {
               <Tooltip contentStyle={tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               {dKeys.map((key, i) => (
-                <Bar key={key} dataKey={key} fill={colors[i % colors.length]} radius={[0, 4, 4, 0]} animationDuration={800} animationBegin={i * 100} />
+                <Bar key={key} dataKey={key} fill={chartColors[i % chartColors.length]} radius={[0, 4, 4, 0]} animationDuration={800} animationBegin={i * 100} />
               ))}
             </BarChart>
           </ResponsiveContainer>
@@ -92,7 +103,7 @@ export function ChartArea() {
               <Tooltip contentStyle={tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               {dKeys.map((key, i) => (
-                <Bar key={key} dataKey={key} fill={colors[i % colors.length]} radius={[4, 4, 0, 0]} animationDuration={800} animationBegin={i * 100} />
+                <Bar key={key} dataKey={key} fill={chartColors[i % chartColors.length]} radius={[4, 4, 0, 0]} animationDuration={800} animationBegin={i * 100} />
               ))}
             </BarChart>
           </ResponsiveContainer>
@@ -108,7 +119,7 @@ export function ChartArea() {
               <Tooltip contentStyle={tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               {dKeys.map((key, i) => (
-                <Line key={key} type="monotone" dataKey={key} stroke={colors[i % colors.length]} strokeWidth={2.5} dot={{ r: 4 }} animationDuration={1200} />
+                <Line key={key} type="monotone" dataKey={key} stroke={chartColors[i % chartColors.length]} strokeWidth={2.5} dot={{ r: 4 }} animationDuration={1200} />
               ))}
             </LineChart>
           </ResponsiveContainer>
@@ -121,8 +132,8 @@ export function ChartArea() {
               <defs>
                 {dKeys.map((key, i) => (
                   <linearGradient key={key} id={`grad-${key.replace(/[^a-zA-Z0-9]/g, '')}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={colors[i % colors.length]} stopOpacity={0.4} />
-                    <stop offset="95%" stopColor={colors[i % colors.length]} stopOpacity={0.05} />
+                    <stop offset="5%" stopColor={chartColors[i % chartColors.length]} stopOpacity={0.4} />
+                    <stop offset="95%" stopColor={chartColors[i % chartColors.length]} stopOpacity={0.05} />
                   </linearGradient>
                 ))}
               </defs>
@@ -132,7 +143,7 @@ export function ChartArea() {
               <Tooltip contentStyle={tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               {dKeys.map((key, i) => (
-                <Area key={key} type="monotone" dataKey={key} fill={`url(#grad-${key.replace(/[^a-zA-Z0-9]/g, '')})`} stroke={colors[i % colors.length]} strokeWidth={2} animationDuration={1000} />
+                <Area key={key} type="monotone" dataKey={key} fill={`url(#grad-${key.replace(/[^a-zA-Z0-9]/g, '')})`} stroke={chartColors[i % chartColors.length]} strokeWidth={2} animationDuration={1000} />
               ))}
             </AreaChart>
           </ResponsiveContainer>
@@ -160,7 +171,7 @@ export function ChartArea() {
                 animationDuration={1000}
               >
                 {pieData.map((_, i) => (
-                  <Cell key={i} fill={colors[i % colors.length]} stroke="hsl(var(--background))" strokeWidth={2} />
+                  <Cell key={i} fill={chartColors[i % chartColors.length]} stroke="hsl(var(--background))" strokeWidth={2} />
                 ))}
               </Pie>
               <Tooltip contentStyle={tooltipStyle} />
@@ -180,7 +191,7 @@ export function ChartArea() {
               <Tooltip contentStyle={tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               {dKeys.map((key, i) => (
-                <Radar key={key} name={key} dataKey={key} stroke={colors[i % colors.length]} fill={colors[i % colors.length]} fillOpacity={0.15} strokeWidth={2} animationDuration={1000} />
+                <Radar key={key} name={key} dataKey={key} stroke={chartColors[i % chartColors.length]} fill={chartColors[i % chartColors.length]} fillOpacity={0.15} strokeWidth={2} animationDuration={1000} />
               ))}
             </RadarChart>
           </ResponsiveContainer>
@@ -195,7 +206,7 @@ export function ChartArea() {
               <YAxis dataKey={dKeys[1] || dKeys[0]} name={dKeys[1] || dKeys[0]} tick={{ fontSize: 10 }} />
               <Tooltip cursor={{ strokeDasharray: '3 3' }} contentStyle={tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 10 }} />
-              <Scatter name="Dados" data={data} fill={colors[0]} animationDuration={1000} />
+              <Scatter name="Dados" data={data} fill={chartColors[0]} animationDuration={1000} />
             </ScatterChart>
           </ResponsiveContainer>
         );
@@ -209,6 +220,8 @@ export function ChartArea() {
   if (showPreloaded && !activeDataset) {
     if (expandedPreloaded) {
       const chart = PRELOADED_CHARTS.find(c => c.id === expandedPreloaded)!;
+      const expandedTheme = themeOverrides[chart.id] || theme;
+      const expandedColors = THEMES[expandedTheme].colors;
       return (
         <div className="flex-1 p-5 overflow-auto animate-fade-in">
           <div className="flex items-center justify-between mb-4">
@@ -216,12 +229,50 @@ export function ChartArea() {
               <h3 className="text-base font-bold text-foreground">{chart.title}</h3>
               <p className="text-xs text-muted-foreground">{chart.subtitle}</p>
             </div>
-            <Button variant="outline" size="sm" onClick={() => setExpandedPreloaded(null)}>
-              <X className="h-4 w-4 mr-1" /> Voltar ao Grid
-            </Button>
+            <div className="flex items-center gap-2">
+              <Select value={expandedTheme} onValueChange={(v) => handleThemeChange(chart.id, v as ThemeName)}>
+                <SelectTrigger className="h-7 w-[120px] text-[10px]">
+                  <div className="flex items-center gap-1">
+                    <Palette className="h-3 w-3" />
+                    <SelectValue />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(THEMES).map(([key, val]) => (
+                    <SelectItem key={key} value={key} className="text-[10px]">
+                      <div className="flex items-center gap-1.5">
+                        <span>{val.emoji}</span>
+                        <div className="flex gap-0.5">
+                          {val.colors.slice(0, 3).map((c, i) => (
+                            <div key={i} className="h-2 w-2 rounded-full" style={{ backgroundColor: c }} />
+                          ))}
+                        </div>
+                        {val.name}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select value={fontOverrides[chart.id] || 'Inter (padrão)'} onValueChange={(v) => handleFontChange(chart.id, v)}>
+                <SelectTrigger className="h-7 w-[100px] text-[10px]">
+                  <div className="flex items-center gap-1">
+                    <Type className="h-3 w-3" />
+                    <SelectValue />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  {FONTS.map(f => (
+                    <SelectItem key={f} value={f} className="text-[10px]">{f}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button variant="outline" size="sm" onClick={() => setExpandedPreloaded(null)}>
+                <X className="h-4 w-4 mr-1" /> Voltar ao Grid
+              </Button>
+            </div>
           </div>
-          <div id="chart-export-area" className="bg-card rounded-xl border border-border p-6 shadow-sm">
-            {renderChartGeneric(chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 500)}
+          <div id="chart-export-area" className="bg-card rounded-xl border border-border p-6 shadow-sm" style={{ fontFamily: (fontOverrides[chart.id] || 'Inter (padrão)').replace(' (padrão)', '') }}>
+            {renderChartGeneric(chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 500, expandedColors)}
           </div>
         </div>
       );
@@ -236,12 +287,16 @@ export function ChartArea() {
           </div>
         </div>
         <div id="chart-export-area" className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-          {PRELOADED_CHARTS.map((chart, index) => (
+          {PRELOADED_CHARTS.map((chart, index) => {
+            const chartTheme = themeOverrides[chart.id] || theme;
+            const chartColors = THEMES[chartTheme].colors;
+            const chartFont = (fontOverrides[chart.id] || 'Inter (padrão)').replace(' (padrão)', '');
+            return (
             <div
               key={chart.id}
               data-chart-id={chart.id}
               className="bg-card rounded-lg border border-border p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 group animate-slide-up aspect-square flex flex-col"
-              style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both' }}
+              style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both', fontFamily: chartFont }}
             >
               <div className="flex items-center justify-between mb-1">
                 <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setExpandedPreloaded(chart.id)}>
@@ -262,14 +317,45 @@ export function ChartArea() {
                       ))}
                     </SelectContent>
                   </Select>
+                  <Select value={chartTheme} onValueChange={(v) => handleThemeChange(chart.id, v as ThemeName)}>
+                    <SelectTrigger className="h-5 w-[26px] text-[8px] border-border/50 opacity-0 group-hover:opacity-100 transition-opacity p-0 justify-center">
+                      <Palette className="h-3 w-3" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(THEMES).map(([key, val]) => (
+                        <SelectItem key={key} value={key} className="text-[10px]">
+                          <div className="flex items-center gap-1.5">
+                            <span>{val.emoji}</span>
+                            <div className="flex gap-0.5">
+                              {val.colors.slice(0, 3).map((c, i) => (
+                                <div key={i} className="h-2 w-2 rounded-full" style={{ backgroundColor: c }} />
+                              ))}
+                            </div>
+                            {val.name}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Select value={fontOverrides[chart.id] || 'Inter (padrão)'} onValueChange={(v) => handleFontChange(chart.id, v)}>
+                    <SelectTrigger className="h-5 w-[26px] text-[8px] border-border/50 opacity-0 group-hover:opacity-100 transition-opacity p-0 justify-center">
+                      <Type className="h-3 w-3" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {FONTS.map(f => (
+                        <SelectItem key={f} value={f} className="text-[10px]">{f}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <Maximize2 className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer flex-shrink-0" onClick={() => setExpandedPreloaded(chart.id)} />
                 </div>
               </div>
               <div className="flex-1 min-h-0">
-                {renderChartGeneric(chartOverrides[chart.id] || chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 250)}
+                {renderChartGeneric(chartOverrides[chart.id] || chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 250, chartColors)}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     );

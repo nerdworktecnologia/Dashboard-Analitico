@@ -1,8 +1,5 @@
-import { Upload, Type, Clock, Image, FileText, Sheet, FileJson, BarChart3, Printer, Palette, Presentation, Maximize, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { Image, FileText, Sheet, FileJson, BarChart3, Printer, Presentation, Maximize, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useDashboard } from '@/context/DashboardContext';
-import { THEMES, FONTS, ThemeName } from '@/types/dashboard';
 import { Separator } from '@/components/ui/separator';
 import { useState } from 'react';
 
@@ -15,7 +12,6 @@ interface SidebarProps {
 }
 
 export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport, onPresent }: SidebarProps) {
-  const { theme, setTheme, font, setFont } = useDashboard();
   const [collapsed, setCollapsed] = useState(false);
 
   if (collapsed) {
@@ -78,58 +74,6 @@ export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport, o
         </Button>
       </section>
 
-      <Separator />
-
-      <section>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2.5 flex items-center gap-1.5">
-          <Palette className="h-3 w-3" /> Tema
-        </h3>
-        <Select value={theme} onValueChange={(v) => setTheme(v as ThemeName)}>
-          <SelectTrigger className="text-xs h-8">
-            <div className="flex items-center gap-1.5">
-              <div className="flex gap-0.5">
-                {THEMES[theme].colors.slice(0, 4).map((c, i) => (
-                  <div key={i} className="h-2.5 w-2.5 rounded-full shadow-sm" style={{ backgroundColor: c }} />
-                ))}
-              </div>
-              <SelectValue />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            {Object.entries(THEMES).map(([key, val]) => (
-              <SelectItem key={key} value={key} className="text-xs">
-                <div className="flex items-center gap-2">
-                  <span>{val.emoji}</span>
-                  <div className="flex gap-0.5">
-                    {val.colors.slice(0, 4).map((c, i) => (
-                      <div key={i} className="h-2 w-2 rounded-full" style={{ backgroundColor: c }} />
-                    ))}
-                  </div>
-                  {val.name}
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </section>
-
-      <Separator />
-
-      <section>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2.5 flex items-center gap-1.5">
-          <Type className="h-3 w-3" /> Fonte
-        </h3>
-        <Select value={font} onValueChange={setFont}>
-          <SelectTrigger className="text-xs h-8">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {FONTS.map(f => (
-              <SelectItem key={f} value={f} className="text-xs">{f}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </section>
     </aside>
   );
 }
