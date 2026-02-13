@@ -134,21 +134,6 @@ export const PRELOADED_CHARTS: PreloadedChart[] = [
     ],
   },
   {
-    id: 'q7',
-    title: '7. Ferramentas de IA Mais Utilizadas',
-    subtitle: 'Comparação entre graduação e pós-graduação',
-    chartType: 'column',
-    labelKey: 'Ferramenta',
-    dataKeys: ['Graduação (%)', 'Pós-Graduação (%)'],
-    data: [
-      { Ferramenta: 'Chats generativos', 'Graduação (%)': 98.84, 'Pós-Graduação (%)': 98.46 },
-      { Ferramenta: 'Assistentes integrados', 'Graduação (%)': 30.21, 'Pós-Graduação (%)': 36.04 },
-      { Ferramenta: 'Editores imagem/som', 'Graduação (%)': 9.51, 'Pós-Graduação (%)': 15.16 },
-      { Ferramenta: 'API/integração', 'Graduação (%)': 4.76, 'Pós-Graduação (%)': 8.57 },
-      { Ferramenta: 'Modelos avançados', 'Graduação (%)': 5.53, 'Pós-Graduação (%)': 9.23 },
-    ],
-  },
-  {
     id: 'q8',
     title: '8. Busca e Recuperação de Informação',
     subtitle: 'Uso frequente (sempre + frequentemente)',
