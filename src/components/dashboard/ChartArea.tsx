@@ -295,7 +295,7 @@ export function ChartArea() {
             <div
               key={chart.id}
               data-chart-id={chart.id}
-              className="bg-card rounded-lg border border-border p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 group animate-slide-up aspect-square flex flex-col"
+              className="bg-card rounded-lg border border-border p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 group animate-slide-up flex flex-col"
               style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both', fontFamily: chartFont }}
             >
               <div className="flex items-center justify-between mb-1">
