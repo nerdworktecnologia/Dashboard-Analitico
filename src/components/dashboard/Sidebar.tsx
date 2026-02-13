@@ -36,22 +36,7 @@ export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport, o
         </Button>
       </div>
 
-      <section>
-        <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2.5 flex items-center gap-1.5">
-          <Upload className="h-3 w-3" /> Importar
-        </h3>
-        <div className="flex flex-col gap-1">
-          <Button variant="outline" size="sm" className="justify-start text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={onImportFile}>
-            <Upload className="h-3.5 w-3.5 mr-1.5" /> Enviar Arquivos
-          </Button>
-          <Button variant="outline" size="sm" className="justify-start text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={onImportText}>
-            <Type className="h-3.5 w-3.5 mr-1.5" /> Inserir por Texto
-          </Button>
-          <Button variant="outline" size="sm" className="justify-start text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={onShowHistory}>
-            <Clock className="h-3.5 w-3.5 mr-1.5" /> Histórico
-          </Button>
-        </div>
-      </section>
+      {/* Seção Importar desabilitada para aprovação do cliente */}
 
       <Separator />
 
