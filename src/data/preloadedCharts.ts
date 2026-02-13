@@ -49,7 +49,7 @@ export const PRELOADED_CHARTS: PreloadedChart[] = [
       { Unidade: 'FAFICH', 'Graduandos (%)': 7.14, 'Pós-graduandos (%)': 4.62 },
       { Unidade: 'Medicina', 'Graduandos (%)': 4.79, 'Pós-graduandos (%)': 1.95 },
       { Unidade: 'Letras', 'Graduandos (%)': 4.87, 'Pós-graduandos (%)': 1.38 },
-      { Unidade: 'Econômicas', 'Graduandos (%)': 3.16, 'Pós-graduandos (%)': 2.84 },
+      { Unidade: 'C. Econômicas', 'Graduandos (%)': 3.16, 'Pós-graduandos (%)': 2.84 },
       { Unidade: 'Direito', 'Graduandos (%)': 3.97, 'Pós-graduandos (%)': 1.70 },
       { Unidade: 'ICB', 'Graduandos (%)': 1.62, 'Pós-graduandos (%)': 3.81 },
       { Unidade: 'ECI', 'Graduandos (%)': 2.51, 'Pós-graduandos (%)': 2.27 },
