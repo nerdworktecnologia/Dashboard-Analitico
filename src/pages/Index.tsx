@@ -24,7 +24,7 @@ function DashboardContent() {
         case 'excel': exportExcel(activeDataset); break;
         case 'json': exportJSON(activeDataset); break;
         case 'powerbi': exportPowerBI(activeDataset); break;
-        case 'pbit': await exportPBIT(activeDataset); break;
+        case 'pbit': exportPBIT(activeDataset); break;
       }
       toast({ title: 'Exportado!', description: `Arquivo ${format.toUpperCase()} gerado com sucesso.` });
     } catch {

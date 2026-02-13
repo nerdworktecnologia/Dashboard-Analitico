@@ -57,7 +57,7 @@ export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport }:
             <BarChart3 className="h-3.5 w-3.5 mr-1" /> Power BI
           </Button>
           <Button variant="outline" size="sm" className="text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={() => onExport('pbit')}>
-            <FileText className="h-3.5 w-3.5 mr-1" /> .pbit
+            <FileText className="h-3.5 w-3.5 mr-1" /> CSV
           </Button>
         </div>
         <Button variant="outline" size="sm" className="w-full mt-1 text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={() => onExport('print')}>
