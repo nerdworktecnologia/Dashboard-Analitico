@@ -1,4 +1,4 @@
-import { Upload, Type, Clock, Image, FileText, Sheet, FileJson, BarChart3, Printer, Palette } from 'lucide-react';
+import { Upload, Type, Clock, Image, FileText, Sheet, FileJson, BarChart3, Printer, Palette, Presentation } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useDashboard } from '@/context/DashboardContext';
@@ -60,6 +60,9 @@ export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport }:
             <FileText className="h-3.5 w-3.5 mr-1" /> CSV
           </Button>
         </div>
+        <Button variant="outline" size="sm" className="w-full mt-1 text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={() => onExport('pptx')}>
+          <Presentation className="h-3.5 w-3.5 mr-1" /> PowerPoint
+        </Button>
         <Button variant="outline" size="sm" className="w-full mt-1 text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={() => onExport('print')}>
           <Printer className="h-3.5 w-3.5 mr-1" /> Imprimir A4
         </Button>

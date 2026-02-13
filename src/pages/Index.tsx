@@ -5,6 +5,7 @@ import { Sidebar } from '@/components/dashboard/Sidebar';
 import { ChartArea } from '@/components/dashboard/ChartArea';
 import { DataPanel } from '@/components/dashboard/DataPanel';
 import { exportPNG, exportPDF, exportExcel, exportJSON, exportPowerBI, exportPBIT, handlePrint } from '@/utils/exportUtils';
+import { exportPowerPoint } from '@/utils/exportPptx';
 import { toast } from '@/hooks/use-toast';
 
 function DashboardContent() {
@@ -25,6 +26,7 @@ function DashboardContent() {
         case 'json': exportJSON(activeDataset); break;
         case 'powerbi': exportPowerBI(activeDataset); break;
         case 'pbit': exportPBIT(activeDataset); break;
+        case 'pptx': await exportPowerPoint(); break;
       }
       toast({ title: 'Exportado!', description: `Arquivo ${format.toUpperCase()} gerado com sucesso.` });
     } catch {
