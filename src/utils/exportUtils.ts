@@ -6,10 +6,24 @@ import { DataSet } from '@/types/dashboard';
 import { PRELOADED_CHARTS } from '@/data/preloadedCharts';
 
 export async function exportPNG(elementId: string) {
+  // Export each chart individually as separate PNG files
+  for (const chart of PRELOADED_CHARTS) {
+    const chartEl = document.querySelector(`[data-chart-id="${chart.id}"]`) as HTMLElement;
+    if (!chartEl) continue;
+    try {
+      const dataUrl = await toPng(chartEl, { backgroundColor: '#ffffff', pixelRatio: 2 });
+      const safeName = chart.title.replace(/[^a-zA-Z0-9À-ú\s]/g, '').trim().replace(/\s+/g, '-');
+      saveAs(dataUrl, `${safeName}.png`);
+    } catch (err) {
+      console.warn(`Failed to export chart ${chart.id}`, err);
+    }
+  }
+
+  // Also export the full dashboard as one combined PNG
   const el = document.getElementById(elementId);
   if (!el) return;
-  const dataUrl = await toPng(el, { backgroundColor: '#ffffff' });
-  saveAs(dataUrl, 'dashboard-graficos.png');
+  const dataUrl = await toPng(el, { backgroundColor: '#ffffff', pixelRatio: 2 });
+  saveAs(dataUrl, 'dashboard-completo.png');
 }
 
 export async function exportPDF(elementId: string) {
