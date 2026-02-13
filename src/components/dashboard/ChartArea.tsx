@@ -22,6 +22,10 @@ const tooltipStyle = {
   fontSize: '11px',
 };
 
+const darkTick = { fontSize: 10, fill: '#1a1a1a', fontWeight: 500 };
+const darkTickSmall = { fontSize: 9, fill: '#1a1a1a', fontWeight: 500 };
+const darkLegend = { fontSize: 10, color: '#1a1a1a', fontWeight: 500 };
+
 export function ChartArea() {
   const { activeDataset, chartType, theme } = useDashboard();
   const defaultColors = THEMES[theme].colors;
@@ -86,10 +90,10 @@ export function ChartArea() {
           <ResponsiveContainer width="100%" height={height}>
             <BarChart data={data} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis type="number" tick={{ fontSize: 10 }} domain={[0, 100]} ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]} />
-              <YAxis dataKey={lKey} type="category" width={110} tick={{ fontSize: 9 }} />
+              <XAxis type="number" tick={darkTick} domain={[0, 100]} ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]} />
+              <YAxis dataKey={lKey} type="category" width={110} tick={darkTickSmall} />
               <Tooltip contentStyle={tooltipStyle} />
-              <Legend wrapperStyle={{ fontSize: 10 }} />
+              <Legend wrapperStyle={darkLegend} />
               {dKeys.map((key, i) => (
                 <Bar key={key} dataKey={key} fill={chartColors[i % chartColors.length]} radius={[0, 4, 4, 0]} animationDuration={800} animationBegin={i * 100} />
               ))}
@@ -102,10 +106,10 @@ export function ChartArea() {
           <ResponsiveContainer width="100%" height={height}>
             <BarChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey={lKey} tick={{ fontSize: 9 }} interval={0} angle={-20} textAnchor="end" height={50} />
-              <YAxis tick={{ fontSize: 10 }} />
+              <XAxis dataKey={lKey} tick={darkTickSmall} interval={0} angle={-20} textAnchor="end" height={50} />
+              <YAxis tick={darkTick} />
               <Tooltip contentStyle={tooltipStyle} />
-              <Legend wrapperStyle={{ fontSize: 10 }} />
+              <Legend wrapperStyle={darkLegend} />
               {dKeys.map((key, i) => (
                 <Bar key={key} dataKey={key} fill={chartColors[i % chartColors.length]} radius={[4, 4, 0, 0]} animationDuration={800} animationBegin={i * 100} />
               ))}
@@ -118,10 +122,10 @@ export function ChartArea() {
           <ResponsiveContainer width="100%" height={height}>
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey={lKey} tick={{ fontSize: 9 }} />
-              <YAxis tick={{ fontSize: 10 }} />
+              <XAxis dataKey={lKey} tick={darkTickSmall} />
+              <YAxis tick={darkTick} />
               <Tooltip contentStyle={tooltipStyle} />
-              <Legend wrapperStyle={{ fontSize: 10 }} />
+              <Legend wrapperStyle={darkLegend} />
               {dKeys.map((key, i) => (
                 <Line key={key} type="monotone" dataKey={key} stroke={chartColors[i % chartColors.length]} strokeWidth={2.5} dot={{ r: 4 }} animationDuration={1200} />
               ))}
@@ -142,10 +146,10 @@ export function ChartArea() {
                 ))}
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey={lKey} tick={{ fontSize: 9 }} />
-              <YAxis tick={{ fontSize: 10 }} />
+              <XAxis dataKey={lKey} tick={darkTickSmall} />
+              <YAxis tick={darkTick} />
               <Tooltip contentStyle={tooltipStyle} />
-              <Legend wrapperStyle={{ fontSize: 10 }} />
+              <Legend wrapperStyle={darkLegend} />
               {dKeys.map((key, i) => (
                 <Area key={key} type="monotone" dataKey={key} fill={`url(#grad-${key.replace(/[^a-zA-Z0-9]/g, '')})`} stroke={chartColors[i % chartColors.length]} strokeWidth={2} animationDuration={1000} />
               ))}
@@ -179,7 +183,7 @@ export function ChartArea() {
                 ))}
               </Pie>
               <Tooltip contentStyle={tooltipStyle} />
-              <Legend wrapperStyle={{ fontSize: 10 }} />
+              <Legend wrapperStyle={darkLegend} />
             </PieChart>
           </ResponsiveContainer>
         );
@@ -190,10 +194,10 @@ export function ChartArea() {
           <ResponsiveContainer width="100%" height={height}>
             <RadarChart data={data}>
               <PolarGrid stroke="hsl(var(--border))" />
-              <PolarAngleAxis dataKey={lKey} tick={{ fontSize: 8 }} />
-              <PolarRadiusAxis tick={{ fontSize: 9 }} />
+              <PolarAngleAxis dataKey={lKey} tick={{ fontSize: 8, fill: '#1a1a1a', fontWeight: 500 }} />
+              <PolarRadiusAxis tick={darkTickSmall} />
               <Tooltip contentStyle={tooltipStyle} />
-              <Legend wrapperStyle={{ fontSize: 10 }} />
+              <Legend wrapperStyle={darkLegend} />
               {dKeys.map((key, i) => (
                 <Radar key={key} name={key} dataKey={key} stroke={chartColors[i % chartColors.length]} fill={chartColors[i % chartColors.length]} fillOpacity={0.15} strokeWidth={2} animationDuration={1000} />
               ))}
@@ -206,10 +210,10 @@ export function ChartArea() {
           <ResponsiveContainer width="100%" height={height}>
             <ScatterChart>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey={dKeys[0] || lKey} name={dKeys[0] || lKey} tick={{ fontSize: 10 }} />
-              <YAxis dataKey={dKeys[1] || dKeys[0]} name={dKeys[1] || dKeys[0]} tick={{ fontSize: 10 }} />
+              <XAxis dataKey={dKeys[0] || lKey} name={dKeys[0] || lKey} tick={darkTick} />
+              <YAxis dataKey={dKeys[1] || dKeys[0]} name={dKeys[1] || dKeys[0]} tick={darkTick} />
               <Tooltip cursor={{ strokeDasharray: '3 3' }} contentStyle={tooltipStyle} />
-              <Legend wrapperStyle={{ fontSize: 10 }} />
+              <Legend wrapperStyle={darkLegend} />
               <Scatter name="Dados" data={data} fill={chartColors[0]} animationDuration={1000} />
             </ScatterChart>
           </ResponsiveContainer>
