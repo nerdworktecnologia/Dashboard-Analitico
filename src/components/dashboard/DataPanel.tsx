@@ -115,20 +115,20 @@ export function DataPanel({ mode, onClose }: DataPanelProps) {
   if (!mode) return null;
 
   return (
-    <div className="w-72 border-l border-border bg-card p-4 flex flex-col">
+    <div className="w-72 border-l border-border bg-card/50 backdrop-blur-sm p-4 flex flex-col animate-slide-in-right">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-semibold text-foreground">
           {mode === 'file' && 'Enviar Arquivos'}
           {mode === 'text' && 'Inserir dados por texto'}
           {mode === 'history' && 'Histórico de Dados'}
         </h3>
-        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onClose}>
+        <Button variant="ghost" size="icon" className="h-6 w-6 hover:rotate-90 transition-transform duration-200" onClick={onClose}>
           <X className="h-4 w-4" />
         </Button>
       </div>
 
       {mode === 'file' && (
-        <div className="flex-1 flex flex-col items-center justify-center gap-3">
+        <div className="flex-1 flex flex-col items-center justify-center gap-3 animate-fade-in">
           <input
             ref={fileInputRef}
             type="file"
@@ -137,10 +137,10 @@ export function DataPanel({ mode, onClose }: DataPanelProps) {
             className="hidden"
           />
           <div
-            className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-primary/50 transition-colors w-full"
+            className="border-2 border-dashed border-border rounded-xl p-8 text-center cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 w-full group"
             onClick={() => fileInputRef.current?.click()}
           >
-            <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+            <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground group-hover:text-primary transition-colors group-hover:scale-110 transform duration-200" />
             <p className="text-xs text-muted-foreground">Clique para selecionar</p>
             <p className="text-xs text-muted-foreground mt-1">CSV, Excel (.xlsx, .xls)</p>
           </div>
@@ -148,12 +148,12 @@ export function DataPanel({ mode, onClose }: DataPanelProps) {
       )}
 
       {mode === 'text' && (
-        <div className="flex-1 flex flex-col gap-3">
+        <div className="flex-1 flex flex-col gap-3 animate-fade-in">
           <div className="flex-1 flex flex-col gap-2">
-            <div className="bg-muted/50 rounded-lg p-3 text-center">
-              <Type className="h-6 w-6 mx-auto mb-1 text-muted-foreground" />
+            <div className="bg-muted/30 rounded-xl p-4 text-center border border-border/50">
+              <Type className="h-6 w-6 mx-auto mb-1.5 text-muted-foreground" />
               <p className="text-xs text-muted-foreground">Cole seus dados aqui, parte por parte.</p>
-              <p className="text-xs text-muted-foreground mt-0.5">Ex: percentuais, tabelas, resultados de pesquisa...</p>
+              <p className="text-[10px] text-muted-foreground mt-1">Ex: percentuais, tabelas, resultados de pesquisa...</p>
             </div>
           </div>
           <div className="relative">
@@ -162,11 +162,11 @@ export function DataPanel({ mode, onClose }: DataPanelProps) {
               onChange={(e) => setTextInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Cole seus dados aqui... (Enter para enviar, Shift+Enter para nova linha)"
-              className="text-xs min-h-[80px] pr-10 resize-none"
+              className="text-xs min-h-[80px] pr-10 resize-none rounded-xl"
             />
             <Button
               size="icon"
-              className="absolute bottom-2 right-2 h-7 w-7"
+              className="absolute bottom-2 right-2 h-7 w-7 rounded-lg shadow-md hover:shadow-lg transition-shadow"
               onClick={handleTextSubmit}
               disabled={!textInput.trim()}
             >
@@ -177,26 +177,27 @@ export function DataPanel({ mode, onClose }: DataPanelProps) {
       )}
 
       {mode === 'history' && (
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto animate-fade-in">
           {datasets.length === 0 ? (
             <p className="text-xs text-muted-foreground text-center mt-8">Nenhum dado importado ainda.</p>
           ) : (
             <div className="flex flex-col gap-2">
-              {datasets.map(ds => (
+              {datasets.map((ds, index) => (
                 <div
                   key={ds.id}
-                  className="p-2 rounded border border-border hover:bg-accent cursor-pointer text-xs"
+                  className="p-2.5 rounded-lg border border-border hover:bg-accent hover:border-primary/20 cursor-pointer text-xs transition-all duration-200 animate-fade-in"
+                  style={{ animationDelay: `${index * 50}ms`, animationFillMode: 'both' }}
                   onClick={() => setActiveDataset(ds)}
                 >
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="font-medium text-foreground">{ds.name}</p>
-                      <p className="text-muted-foreground">{ds.rows.length} linhas • {ds.headers.length} colunas</p>
+                      <p className="text-muted-foreground mt-0.5">{ds.rows.length} linhas • {ds.headers.length} colunas</p>
                     </div>
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-5 w-5"
+                      className="h-5 w-5 opacity-50 hover:opacity-100"
                       onClick={(e) => { e.stopPropagation(); removeDataset(ds.id); }}
                     >
                       <X className="h-3 w-3" />
