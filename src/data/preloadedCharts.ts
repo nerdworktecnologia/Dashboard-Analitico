@@ -144,15 +144,15 @@ export const PRELOADED_CHARTS: PreloadedChart[] = [
   {
     id: 'q9',
     title: '9. Percepção de Confiabilidade da IA',
-    subtitle: 'Nível de confiança nos resultados',
+    subtitle: 'Nível de confiança nos resultados (Grad: 778 / Pós: 455)',
     chartType: 'pie',
     labelKey: 'Confiança',
-    dataKeys: ['Graduação', 'Pós-Graduação'],
+    dataKeys: ['Graduação (%)', 'Pós-Graduação (%)'],
     data: [
-      { Confiança: 'Confio', Graduação: 11, 'Pós-Graduação': 3 },
-      { Confiança: 'Confio em parte', Graduação: 638, 'Pós-Graduação': 362 },
-      { Confiança: 'Não confio', Graduação: 106, 'Pós-Graduação': 67 },
-      { Confiança: 'Outras', Graduação: 23, 'Pós-Graduação': 23 },
+      { Confiança: 'Confio', 'Graduação (%)': 1.41, 'Pós-Graduação (%)': 0.66 },
+      { Confiança: 'Confio em parte', 'Graduação (%)': 84.32, 'Pós-Graduação (%)': 83.08 },
+      { Confiança: 'Não confio', 'Graduação (%)': 13.62, 'Pós-Graduação (%)': 15.38 },
+      { Confiança: 'Outras', 'Graduação (%)': 0.64, 'Pós-Graduação (%)': 0.88 },
     ],
   },
 ];
