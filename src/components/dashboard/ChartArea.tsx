@@ -32,6 +32,10 @@ export function ChartArea() {
   const [chartOverrides, setChartOverrides] = useState<Record<string, ChartType>>({});
   const [themeOverrides, setThemeOverrides] = useState<Record<string, ThemeName>>({});
   const [fontOverrides, setFontOverrides] = useState<Record<string, string>>({});
+  const [titleOverrides, setTitleOverrides] = useState<Record<string, string>>({});
+  const [subtitleOverrides, setSubtitleOverrides] = useState<Record<string, string>>({});
+  const [sectionTitle, setSectionTitle] = useState('Análise – Uso de IA no Meio Acadêmico (UFMG)');
+  const [sectionSubtitle, setSectionSubtitle] = useState('9 gráficos • Dados de 1.508 discentes');
 
   const handleChartTypeChange = (chartId: string, newType: ChartType) => {
     setChartOverrides(prev => ({ ...prev, [chartId]: newType }));
@@ -226,8 +230,16 @@ export function ChartArea() {
         <div className="flex-1 p-5 overflow-auto animate-fade-in">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-base font-bold text-foreground">{chart.title}</h3>
-              <p className="text-xs text-muted-foreground">{chart.subtitle}</p>
+              <input
+                value={titleOverrides[chart.id] ?? chart.title}
+                onChange={(e) => setTitleOverrides(prev => ({ ...prev, [chart.id]: e.target.value }))}
+                className="text-base font-bold text-foreground bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-1 -ml-1 transition-colors"
+              />
+              <input
+                value={subtitleOverrides[chart.id] ?? chart.subtitle}
+                onChange={(e) => setSubtitleOverrides(prev => ({ ...prev, [chart.id]: e.target.value }))}
+                className="text-xs text-muted-foreground bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-1 -ml-1 transition-colors"
+              />
             </div>
             <div className="flex items-center gap-2">
               <Select value={expandedTheme} onValueChange={(v) => handleThemeChange(chart.id, v as ThemeName)}>
@@ -282,8 +294,16 @@ export function ChartArea() {
       <div className="flex-1 p-3 overflow-auto">
         <div className="flex items-center justify-between mb-3 animate-fade-in">
           <div>
-            <h3 className="text-sm font-bold text-foreground">Análise – Uso de IA no Meio Acadêmico (UFMG)</h3>
-            <p className="text-[10px] text-muted-foreground">9 gráficos • Dados de 1.508 discentes</p>
+            <input
+              value={sectionTitle}
+              onChange={(e) => setSectionTitle(e.target.value)}
+              className="text-sm font-bold text-foreground bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-1 -ml-1 transition-colors"
+            />
+            <input
+              value={sectionSubtitle}
+              onChange={(e) => setSectionSubtitle(e.target.value)}
+              className="text-[10px] text-muted-foreground bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-1 -ml-1 transition-colors"
+            />
           </div>
         </div>
         <div id="chart-export-area" className="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -299,9 +319,19 @@ export function ChartArea() {
               style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both', fontFamily: chartFont }}
             >
               <div className="flex items-center justify-between mb-1">
-                <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setExpandedPreloaded(chart.id)}>
-                  <h4 className="text-[10px] font-bold text-foreground leading-tight truncate">{chart.title}</h4>
-                  <p className="text-[8px] text-muted-foreground mt-0.5 truncate">{chart.subtitle}</p>
+                <div className="flex-1 min-w-0">
+                  <input
+                    value={titleOverrides[chart.id] ?? chart.title}
+                    onChange={(e) => setTitleOverrides(prev => ({ ...prev, [chart.id]: e.target.value }))}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-[10px] font-bold text-foreground leading-tight bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-0.5 transition-colors truncate"
+                  />
+                  <input
+                    value={subtitleOverrides[chart.id] ?? chart.subtitle}
+                    onChange={(e) => setSubtitleOverrides(prev => ({ ...prev, [chart.id]: e.target.value }))}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-[8px] text-muted-foreground mt-0.5 bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-0.5 transition-colors truncate"
+                  />
                 </div>
                 <div className="flex items-center gap-1">
                   <Select
