@@ -229,7 +229,7 @@ export function ChartArea() {
             <p className="text-[10px] text-muted-foreground">9 gráficos • Dados de 1.508 discentes</p>
           </div>
         </div>
-        <div id="chart-export-area" className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+        <div id="chart-export-area" className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           {PRELOADED_CHARTS.map((chart, index) => (
             <div
               key={chart.id}
