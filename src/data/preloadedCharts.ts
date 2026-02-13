@@ -33,7 +33,7 @@ export const PRELOADED_CHARTS: PreloadedChart[] = [
     data: [
       { Área: 'Humanidades', 'Graduação (%)': 71.08, 'Pós-Graduação (%)': 81.30 },
       { Área: 'Ciências Exatas', 'Graduação (%)': 89.73, 'Pós-Graduação (%)': 87.50 },
-      { Área: 'Ciências da Saúde', 'Graduação (%)': 91.53, 'Pós-Graduação (%)': 85.83 },
+      { Área: 'Ciências da Vida', 'Graduação (%)': 91.53, 'Pós-Graduação (%)': 85.83 },
     ],
   },
   {
