@@ -1,9 +1,10 @@
-import { Upload, Type, Clock, Image, FileText, Sheet, FileJson, BarChart3, Printer, Palette, Presentation, Maximize } from 'lucide-react';
+import { Upload, Type, Clock, Image, FileText, Sheet, FileJson, BarChart3, Printer, Palette, Presentation, Maximize, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useDashboard } from '@/context/DashboardContext';
 import { THEMES, FONTS, ThemeName } from '@/types/dashboard';
 import { Separator } from '@/components/ui/separator';
+import { useState } from 'react';
 
 interface SidebarProps {
   onImportFile: () => void;
@@ -15,10 +16,27 @@ interface SidebarProps {
 
 export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport, onPresent }: SidebarProps) {
   const { theme, setTheme, font, setFont } = useDashboard();
+  const [collapsed, setCollapsed] = useState(false);
+
+  if (collapsed) {
+    return (
+      <aside className="w-10 border-r border-border bg-card/50 backdrop-blur-sm flex flex-col items-center py-2 gap-1">
+        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setCollapsed(false)} title="Abrir menu">
+          <PanelLeftOpen className="h-4 w-4" />
+        </Button>
+      </aside>
+    );
+  }
 
   return (
     <aside className="w-52 border-r border-border bg-card/50 backdrop-blur-sm p-4 flex flex-col gap-4 overflow-y-auto animate-slide-in-left">
-      <section className="animate-fade-in" style={{ animationDelay: '100ms', animationFillMode: 'both' }}>
+      <div className="flex items-center justify-end">
+        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setCollapsed(true)} title="Fechar menu">
+          <PanelLeftClose className="h-4 w-4" />
+        </Button>
+      </div>
+
+      <section>
         <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2.5 flex items-center gap-1.5">
           <Upload className="h-3 w-3" /> Importar
         </h3>
@@ -37,7 +55,7 @@ export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport, o
 
       <Separator />
 
-      <section className="animate-fade-in" style={{ animationDelay: '200ms', animationFillMode: 'both' }}>
+      <section>
         <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2.5 flex items-center gap-1.5">
           <FileText className="h-3 w-3" /> Exportar
         </h3>
@@ -77,7 +95,7 @@ export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport, o
 
       <Separator />
 
-      <section className="animate-fade-in" style={{ animationDelay: '300ms', animationFillMode: 'both' }}>
+      <section>
         <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2.5 flex items-center gap-1.5">
           <Palette className="h-3 w-3" /> Tema
         </h3>
@@ -112,7 +130,7 @@ export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport, o
 
       <Separator />
 
-      <section className="animate-fade-in" style={{ animationDelay: '400ms', animationFillMode: 'both' }}>
+      <section>
         <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2.5 flex items-center gap-1.5">
           <Type className="h-3 w-3" /> Fonte
         </h3>
