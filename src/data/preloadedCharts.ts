@@ -126,7 +126,7 @@ export const PRELOADED_CHARTS: PreloadedChart[] = [
       rightTitle: 'Pós-Graduação',
       leftKeys: ['Baixo Uso Grad (%)', 'Rejeição Grad (%)'],
       rightKeys: ['Baixo Uso Pós (%)', 'Rejeição Pós (%)'],
-      displayKeys: ['Baixo Uso', 'Rejeição Ética'],
+      displayKeys: ['Rejeição Ética', 'Baixo Uso'],
     },
     data: [
       { Atividade: 'Escrita acadêmica', 'Baixo Uso Grad (%)': 76.47, 'Rejeição Grad (%)': 57.84, 'Baixo Uso Pós (%)': 73.84, 'Rejeição Pós (%)': 55.60 },
