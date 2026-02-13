@@ -31,7 +31,8 @@ function DashboardContent() {
         case 'pptx': await exportPowerPoint(); break;
       }
       toast({ title: 'Exportado!', description: `Arquivo ${format.toUpperCase()} gerado com sucesso.` });
-    } catch {
+    } catch (err) {
+      console.error('[Export Error]', err);
       toast({ title: 'Erro', description: 'Falha ao exportar.', variant: 'destructive' });
     }
   }, [activeDataset]);
