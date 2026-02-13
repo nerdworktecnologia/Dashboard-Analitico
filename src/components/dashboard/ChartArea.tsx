@@ -234,7 +234,7 @@ export function ChartArea() {
             <div
               key={chart.id}
               data-chart-id={chart.id}
-              className="bg-card rounded-lg border border-border p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 group animate-slide-up cursor-pointer"
+              className="bg-card rounded-lg border border-border p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 group animate-slide-up cursor-pointer aspect-square flex flex-col"
               style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both' }}
               onClick={() => setExpandedPreloaded(chart.id)}
             >
@@ -245,7 +245,9 @@ export function ChartArea() {
                 </div>
                 <Maximize2 className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity ml-1 flex-shrink-0" />
               </div>
-              {renderChartGeneric(chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 180)}
+              <div className="flex-1 min-h-0">
+                {renderChartGeneric(chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 250)}
+              </div>
             </div>
           ))}
         </div>
