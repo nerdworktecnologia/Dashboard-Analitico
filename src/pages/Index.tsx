@@ -12,6 +12,7 @@ import { toast } from '@/hooks/use-toast';
 function DashboardContent() {
   const [panelMode, setPanelMode] = useState<'file' | 'text' | 'history' | null>(null);
   const [presenting, setPresenting] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const { activeDataset, darkMode } = useDashboard();
 
   const handleExport = useCallback(async (format: string) => {
@@ -43,9 +44,10 @@ function DashboardContent() {
 
   return (
     <div className={`h-screen flex flex-col ${darkMode ? 'dark' : ''}`}>
-      <Header />
+      <Header onToggleSidebar={() => setSidebarOpen(prev => !prev)} />
       <div className="flex flex-1 overflow-hidden bg-background">
         <Sidebar
+          collapsed={!sidebarOpen}
           onImportFile={() => setPanelMode(panelMode === 'file' ? null : 'file')}
           onImportText={() => setPanelMode(panelMode === 'text' ? null : 'text')}
           onShowHistory={() => setPanelMode(panelMode === 'history' ? null : 'history')}

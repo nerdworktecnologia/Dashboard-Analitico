@@ -1,9 +1,13 @@
-import { BarChart3, Moon, Sun, Sparkles } from 'lucide-react';
+import { BarChart3, Moon, Sun, Sparkles, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDashboard } from '@/context/DashboardContext';
 import { useState } from 'react';
 
-export function Header() {
+interface HeaderProps {
+  onToggleSidebar: () => void;
+}
+
+export function Header({ onToggleSidebar }: HeaderProps) {
   const { darkMode, toggleDarkMode } = useDashboard();
   const [title, setTitle] = useState('Dashboard Analítico – Uso de IA no Meio Acadêmico');
   const [subtitle, setSubtitle] = useState('Dados sigilosos pertencentes ao Douglas • Desenvolvido por Caroline Brand Studio');
@@ -12,6 +16,14 @@ export function Header() {
     <header className="flex items-center justify-between px-6 py-3.5 bg-primary text-primary-foreground shadow-lg relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-primary/80" />
       <div className="flex items-center gap-3 relative z-10 flex-1 min-w-0">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onToggleSidebar}
+          className="text-primary-foreground hover:bg-primary-foreground/10 transition-all duration-200"
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
         <div className="p-1.5 bg-primary-foreground/10 rounded-lg">
           <BarChart3 className="h-5 w-5" />
         </div>
