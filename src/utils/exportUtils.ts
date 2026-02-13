@@ -140,7 +140,14 @@ export function exportExcel(dataset: DataSet | null) {
     XLSX.utils.book_append_sheet(wb, ws, 'Dados Importados');
   }
 
-  XLSX.writeFile(wb, 'dashboard-analitico-ufmg.xlsx');
+  const b64 = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
+  const byteChars = atob(b64);
+  const byteArray = new Uint8Array(byteChars.length);
+  for (let i = 0; i < byteChars.length; i++) {
+    byteArray[i] = byteChars.charCodeAt(i);
+  }
+  const blob = new Blob([byteArray], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  saveAs(blob, 'dashboard-analitico-ufmg.xlsx');
 
   // Also export the dashboard as PNG alongside
   const el = document.getElementById('chart-export-area');
@@ -211,7 +218,14 @@ export function exportPowerBI(dataset: DataSet | null) {
   summaryWs['!cols'] = [{ wch: 45 }, { wch: 40 }, { wch: 10 }, { wch: 10 }, { wch: 40 }];
   XLSX.utils.book_append_sheet(wb, summaryWs, 'Resumo');
 
-  XLSX.writeFile(wb, 'dashboard-powerbi-ufmg.xlsx');
+  const b64 = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
+  const byteChars = atob(b64);
+  const byteArray = new Uint8Array(byteChars.length);
+  for (let i = 0; i < byteChars.length; i++) {
+    byteArray[i] = byteChars.charCodeAt(i);
+  }
+  const blob = new Blob([byteArray], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  saveAs(blob, 'dashboard-powerbi-ufmg.xlsx');
 }
 
 export function exportPBIT(dataset: DataSet | null) {
