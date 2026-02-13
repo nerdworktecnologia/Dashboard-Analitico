@@ -8,6 +8,7 @@ import {
 import { useDashboard } from '@/context/DashboardContext';
 import { THEMES, ChartType } from '@/types/dashboard';
 import { Upload, LayoutGrid, Maximize2, X } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChartTypeSelector } from './ChartTypeSelector';
 import { Button } from '@/components/ui/button';
 import { PRELOADED_CHARTS, PreloadedChart } from '@/data/preloadedCharts';
@@ -28,6 +29,11 @@ export function ChartArea() {
   const [expandedChart, setExpandedChart] = useState<ChartType | null>(null);
   const [showPreloaded, setShowPreloaded] = useState(true);
   const [expandedPreloaded, setExpandedPreloaded] = useState<string | null>(null);
+  const [chartOverrides, setChartOverrides] = useState<Record<string, ChartType>>({});
+
+  const handleChartTypeChange = (chartId: string, newType: ChartType) => {
+    setChartOverrides(prev => ({ ...prev, [chartId]: newType }));
+  };
 
   const chartData = useMemo(() => {
     if (!activeDataset) return [];
@@ -234,19 +240,33 @@ export function ChartArea() {
             <div
               key={chart.id}
               data-chart-id={chart.id}
-              className="bg-card rounded-lg border border-border p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 group animate-slide-up cursor-pointer aspect-square flex flex-col"
+              className="bg-card rounded-lg border border-border p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 group animate-slide-up aspect-square flex flex-col"
               style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both' }}
-              onClick={() => setExpandedPreloaded(chart.id)}
             >
               <div className="flex items-center justify-between mb-1">
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 cursor-pointer" onClick={() => setExpandedPreloaded(chart.id)}>
                   <h4 className="text-[10px] font-bold text-foreground leading-tight truncate">{chart.title}</h4>
                   <p className="text-[8px] text-muted-foreground mt-0.5 truncate">{chart.subtitle}</p>
                 </div>
-                <Maximize2 className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity ml-1 flex-shrink-0" />
+                <div className="flex items-center gap-1">
+                  <Select
+                    value={chartOverrides[chart.id] || chart.chartType}
+                    onValueChange={(v) => handleChartTypeChange(chart.id, v as ChartType)}
+                  >
+                    <SelectTrigger className="h-5 w-[70px] text-[8px] border-border/50 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ALL_CHART_TYPES.map(t => (
+                        <SelectItem key={t} value={t} className="text-[10px]">{t === 'column' ? 'Colunas' : t === 'bar' ? 'Barras' : t === 'line' ? 'Linha' : t === 'area' ? 'Área' : t === 'pie' ? 'Pizza' : t === 'donut' ? 'Rosca' : t === 'radar' ? 'Radar' : 'Dispersão'}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Maximize2 className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer flex-shrink-0" onClick={() => setExpandedPreloaded(chart.id)} />
+                </div>
               </div>
               <div className="flex-1 min-h-0">
-                {renderChartGeneric(chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 250)}
+                {renderChartGeneric(chartOverrides[chart.id] || chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 250)}
               </div>
             </div>
           ))}
