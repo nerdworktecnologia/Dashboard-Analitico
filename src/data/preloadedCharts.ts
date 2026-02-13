@@ -40,7 +40,7 @@ export const PRELOADED_CHARTS: PreloadedChart[] = [
     id: 'q3',
     title: '3. Incidência por Unidade Acadêmica',
     subtitle: '1.233 discentes que usam IA (778 graduandos e 455 pós-graduandos)',
-    chartType: 'line',
+    chartType: 'bar',
     labelKey: 'Unidade',
     dataKeys: ['Graduandos (%)', 'Pós-graduandos (%)'],
     data: [
