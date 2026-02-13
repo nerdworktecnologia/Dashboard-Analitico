@@ -19,7 +19,7 @@ export function Header() {
           <div className="flex items-center gap-2 mt-0.5">
             <Sparkles className="h-3 w-3 opacity-60" />
             <p className="text-xs opacity-70">
-              Dados sigilosos • Desenvolvido por Caroline Brand Studio
+              Dados sigilosos pertencentes ao Douglas • Desenvolvido por Caroline Brand Studio
             </p>
           </div>
         </div>
