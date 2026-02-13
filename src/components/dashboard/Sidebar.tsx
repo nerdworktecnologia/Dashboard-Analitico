@@ -1,4 +1,4 @@
-import { Image, FileText, Sheet, FileJson, BarChart3, Printer, Presentation, Maximize } from 'lucide-react';
+import { Image, FileText, Sheet, FileJson, BarChart3, Printer, Presentation, Maximize, Upload, Type, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
@@ -19,7 +19,24 @@ export function Sidebar({ collapsed, onImportFile, onImportText, onShowHistory, 
       }`}
     >
       <div className="min-w-[calc(13rem-2rem)] overflow-y-auto flex flex-col gap-4">
-        {/* Seção Importar desabilitada para aprovação do cliente */}
+        <section>
+          <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2.5 flex items-center gap-1.5">
+            <Upload className="h-3 w-3" /> Importar
+          </h3>
+          <div className="flex flex-col gap-1">
+            <Button variant="outline" size="sm" className="w-full justify-start text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={onImportFile}>
+              <Upload className="h-3.5 w-3.5 mr-1.5" /> Enviar Arquivos
+            </Button>
+            <Button variant="outline" size="sm" className="w-full justify-start text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={onImportText}>
+              <Type className="h-3.5 w-3.5 mr-1.5" /> Inserir por Texto
+            </Button>
+            <Button variant="outline" size="sm" className="w-full justify-start text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={onShowHistory}>
+              <Clock className="h-3.5 w-3.5 mr-1.5" /> Histórico
+            </Button>
+          </div>
+        </section>
+
+        <Separator />
 
         <section>
           <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2.5 flex items-center gap-1.5">
