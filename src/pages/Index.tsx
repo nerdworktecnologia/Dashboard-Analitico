@@ -4,12 +4,14 @@ import { Header } from '@/components/dashboard/Header';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { ChartArea } from '@/components/dashboard/ChartArea';
 import { DataPanel } from '@/components/dashboard/DataPanel';
+import { PresentationMode } from '@/components/dashboard/PresentationMode';
 import { exportPNG, exportPDF, exportExcel, exportJSON, exportPowerBI, exportPBIT, handlePrint } from '@/utils/exportUtils';
 import { exportPowerPoint } from '@/utils/exportPptx';
 import { toast } from '@/hooks/use-toast';
 
 function DashboardContent() {
   const [panelMode, setPanelMode] = useState<'file' | 'text' | 'history' | null>(null);
+  const [presenting, setPresenting] = useState(false);
   const { activeDataset, darkMode } = useDashboard();
 
   const handleExport = useCallback(async (format: string) => {
@@ -34,6 +36,10 @@ function DashboardContent() {
     }
   }, [activeDataset]);
 
+  if (presenting) {
+    return <PresentationMode onExit={() => setPresenting(false)} />;
+  }
+
   return (
     <div className={`h-screen flex flex-col ${darkMode ? 'dark' : ''}`}>
       <Header />
@@ -43,6 +49,7 @@ function DashboardContent() {
           onImportText={() => setPanelMode(panelMode === 'text' ? null : 'text')}
           onShowHistory={() => setPanelMode(panelMode === 'history' ? null : 'history')}
           onExport={handleExport}
+          onPresent={() => setPresenting(true)}
         />
         <ChartArea />
         <DataPanel mode={panelMode} onClose={() => setPanelMode(null)} />
