@@ -222,30 +222,30 @@ export function ChartArea() {
     }
 
     return (
-      <div className="flex-1 p-5 overflow-auto">
-        <div className="flex items-center justify-between mb-4 animate-fade-in">
+      <div className="flex-1 p-3 overflow-auto">
+        <div className="flex items-center justify-between mb-3 animate-fade-in">
           <div>
-            <h3 className="text-base font-bold text-foreground">Análise – Uso de IA no Meio Acadêmico (UFMG)</h3>
-            <p className="text-xs text-muted-foreground">9 gráficos • Dados de 1.508 discentes</p>
+            <h3 className="text-sm font-bold text-foreground">Análise – Uso de IA no Meio Acadêmico (UFMG)</h3>
+            <p className="text-[10px] text-muted-foreground">9 gráficos • Dados de 1.508 discentes</p>
           </div>
         </div>
-        <div id="chart-export-area" className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div id="chart-export-area" className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
           {PRELOADED_CHARTS.map((chart, index) => (
             <div
               key={chart.id}
               data-chart-id={chart.id}
-              className="bg-card rounded-xl border border-border p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 group animate-slide-up cursor-pointer"
+              className="bg-card rounded-lg border border-border p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 group animate-slide-up cursor-pointer"
               style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both' }}
               onClick={() => setExpandedPreloaded(chart.id)}
             >
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-1">
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-[11px] font-bold text-foreground leading-tight">{chart.title}</h4>
-                  <p className="text-[9px] text-muted-foreground mt-0.5">{chart.subtitle}</p>
+                  <h4 className="text-[10px] font-bold text-foreground leading-tight truncate">{chart.title}</h4>
+                  <p className="text-[8px] text-muted-foreground mt-0.5 truncate">{chart.subtitle}</p>
                 </div>
-                <Maximize2 className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity ml-2 flex-shrink-0" />
+                <Maximize2 className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity ml-1 flex-shrink-0" />
               </div>
-              {renderChartGeneric(chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 220)}
+              {renderChartGeneric(chart.chartType, chart.data, chart.labelKey, chart.dataKeys, 180)}
             </div>
           ))}
         </div>
