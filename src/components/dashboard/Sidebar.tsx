@@ -1,9 +1,9 @@
-import { Image, FileText, Sheet, FileJson, BarChart3, Printer, Presentation, Maximize, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { Image, FileText, Sheet, FileJson, BarChart3, Printer, Presentation, Maximize } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { useState } from 'react';
 
 interface SidebarProps {
+  collapsed: boolean;
   onImportFile: () => void;
   onImportText: () => void;
   onShowHistory: () => void;
@@ -11,30 +11,14 @@ interface SidebarProps {
   onPresent: () => void;
 }
 
-export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport, onPresent }: SidebarProps) {
-  const [collapsed, setCollapsed] = useState(false);
-
+export function Sidebar({ collapsed, onImportFile, onImportText, onShowHistory, onExport, onPresent }: SidebarProps) {
   if (collapsed) {
-    return (
-      <aside className="w-10 border-r border-border bg-card/50 backdrop-blur-sm flex flex-col items-center py-2 gap-1">
-        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setCollapsed(false)} title="Abrir menu">
-          <PanelLeftOpen className="h-4 w-4" />
-        </Button>
-      </aside>
-    );
+    return null;
   }
 
   return (
     <aside className="w-52 border-r border-border bg-card/50 backdrop-blur-sm p-4 flex flex-col gap-4 overflow-y-auto animate-slide-in-left">
-      <div className="flex items-center justify-end">
-        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setCollapsed(true)} title="Fechar menu">
-          <PanelLeftClose className="h-4 w-4" />
-        </Button>
-      </div>
-
       {/* Seção Importar desabilitada para aprovação do cliente */}
-
-      <Separator />
 
       <section>
         <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2.5 flex items-center gap-1.5">
