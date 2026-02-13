@@ -86,6 +86,7 @@ export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport }:
             {Object.entries(THEMES).map(([key, val]) => (
               <SelectItem key={key} value={key} className="text-xs">
                 <div className="flex items-center gap-2">
+                  <span>{val.emoji}</span>
                   <div className="flex gap-0.5">
                     {val.colors.slice(0, 4).map((c, i) => (
                       <div key={i} className="h-2 w-2 rounded-full" style={{ backgroundColor: c }} />
