@@ -2,6 +2,7 @@ import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
+import JSZip from 'jszip';
 import { DataSet } from '@/types/dashboard';
 import { PRELOADED_CHARTS } from '@/data/preloadedCharts';
 
@@ -169,45 +170,72 @@ export function exportPowerBI(dataset: DataSet | null) {
   saveAs(blob, 'dashboard-analitico-ufmg-powerbi.json');
 }
 
-export function exportPBIT(dataset: DataSet | null) {
-  const template = {
-    version: '1.0',
+export async function exportPBIT(dataset: DataSet | null) {
+  const zip = new JSZip();
+
+  // DataModelSchema - the core of a .pbit file
+  const dataModelSchema = {
     name: 'Dashboard Analítico – IA no Meio Acadêmico',
-    description: 'Template Power BI com 9 gráficos sobre uso de IA na UFMG',
-    dataModel: {
+    compatibilityLevel: 1500,
+    model: {
       culture: 'pt-BR',
-      tables: PRELOADED_CHARTS.map(chart => ({
-        name: chart.title.replace(/^\d+\.\s*/, '').substring(0, 50),
-        columns: [
-          { name: chart.labelKey, dataType: 'String' },
-          ...chart.dataKeys.map(k => ({ name: k, dataType: 'Double' })),
-        ],
-        measures: chart.dataKeys.map(k => ({
-          name: `Total ${k}`,
-          expression: `SUM('${chart.title.replace(/^\d+\.\s*/, '').substring(0, 50)}'[${k}])`,
-        })),
-      })),
+      dataAccessOptions: { legacyRedirects: true, returnErrorValuesAsNull: true },
+      defaultPowerBIDataSourceVersion: '2.0',
+      tables: PRELOADED_CHARTS.map(chart => {
+        const tableName = chart.title.replace(/^\d+\.\s*/, '').substring(0, 50);
+        return {
+          name: tableName,
+          columns: [
+            { name: chart.labelKey, dataType: 'string', sourceColumn: chart.labelKey, summarizeBy: 'none' },
+            ...chart.dataKeys.map(k => ({
+              name: k,
+              dataType: 'double',
+              sourceColumn: k,
+              summarizeBy: 'sum',
+              formatString: '0.00',
+            })),
+          ],
+          partitions: [{
+            name: tableName,
+            mode: 'import',
+            source: {
+              type: 'm',
+              expression: [
+                `let`,
+                `    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("${btoa(JSON.stringify(chart.data))}", BinaryEncoding.Base64), Compression.Deflate)), type table [${[chart.labelKey, ...chart.dataKeys].map(k => `#"${k}" = text`).join(', ')}])`,
+                `in`,
+                `    Source`,
+              ],
+            },
+          }],
+          measures: chart.dataKeys.map(k => ({
+            name: `Total ${k}`,
+            expression: `SUM('${tableName}'[${k}])`,
+          })),
+        };
+      }),
+      annotations: [
+        { name: 'PBI_QueryOrder', value: JSON.stringify(PRELOADED_CHARTS.map((_, i) => i)) },
+        { name: 'PBIDesktopVersion', value: '2.128.0.0' },
+      ],
     },
-    pages: [{
-      name: 'Dashboard Principal',
-      displayName: 'Uso de IA no Meio Acadêmico',
-      visuals: PRELOADED_CHARTS.map((chart, i) => ({
-        type: chart.chartType === 'pie' ? 'pieChart' : 'clusteredBarChart',
-        title: chart.title,
-        table: chart.title.replace(/^\d+\.\s*/, '').substring(0, 50),
-        x: (i % 3) * 400,
-        y: Math.floor(i / 3) * 320,
-        width: 380,
-        height: 300,
-      })),
-    }],
-    dataSources: [{
-      name: 'Dados Embutidos',
-      connectionString: 'embedded',
-    }],
   };
-  const blob = new Blob([JSON.stringify(template, null, 2)], { type: 'application/json' });
-  saveAs(blob, 'dashboard-analitico-ufmg.pbit.json');
+
+  // Add files to ZIP (mimicking .pbit structure)
+  zip.file('DataModelSchema', JSON.stringify(dataModelSchema, null, 2));
+  zip.file('[Content_Types].xml',
+    '<?xml version="1.0" encoding="utf-8"?>' +
+    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+    '<Default Extension="json" ContentType="application/json" />' +
+    '<Override PartName="/DataModelSchema" ContentType="application/json" />' +
+    '<Override PartName="/DiagramState" ContentType="application/json" />' +
+    '</Types>'
+  );
+  zip.file('DiagramState', JSON.stringify({ version: '1.0', diagrams: [] }));
+  zip.file('Version', '2.128.0.0');
+
+  const content = await zip.generateAsync({ type: 'blob', mimeType: 'application/x-pbit' });
+  saveAs(content, 'dashboard-analitico-ufmg.pbit');
 }
 
 export function handlePrint() {
