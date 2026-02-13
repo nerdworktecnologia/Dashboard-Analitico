@@ -17,19 +17,14 @@ function DashboardContent() {
       return;
     }
 
-    if (!activeDataset && ['excel', 'json', 'powerbi', 'pbit'].includes(format)) {
-      toast({ title: 'Sem dados', description: 'Importe dados antes de exportar.', variant: 'destructive' });
-      return;
-    }
-
     try {
       switch (format) {
         case 'png': await exportPNG('chart-export-area'); break;
         case 'pdf': await exportPDF('chart-export-area'); break;
-        case 'excel': exportExcel(activeDataset!); break;
-        case 'json': exportJSON(activeDataset!); break;
-        case 'powerbi': exportPowerBI(activeDataset!); break;
-        case 'pbit': exportPBIT(activeDataset!); break;
+        case 'excel': exportExcel(activeDataset); break;
+        case 'json': exportJSON(activeDataset); break;
+        case 'powerbi': exportPowerBI(activeDataset); break;
+        case 'pbit': exportPBIT(activeDataset); break;
       }
       toast({ title: 'Exportado!', description: `Arquivo ${format.toUpperCase()} gerado com sucesso.` });
     } catch {
