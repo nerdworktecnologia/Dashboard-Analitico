@@ -233,6 +233,7 @@ export function ChartArea() {
           {PRELOADED_CHARTS.map((chart, index) => (
             <div
               key={chart.id}
+              data-chart-id={chart.id}
               className="bg-card rounded-xl border border-border p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/30 group animate-slide-up cursor-pointer"
               style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'both' }}
               onClick={() => setExpandedPreloaded(chart.id)}
