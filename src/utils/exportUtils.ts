@@ -131,7 +131,7 @@ export function exportExcel(dataset: DataSet | null) {
       wch: Math.max(key.length, ...sheetData.map(r => String(r[key] ?? '').length)) + 2,
     }));
     ws['!cols'] = colWidths;
-    const name = chart.title.replace(/^\d+\.\s*/, '').substring(0, 31);
+    const name = chart.title.replace(/^\d+\.\s*/, '').replace(/[:\\/?*\[\]]/g, '-').substring(0, 31);
     XLSX.utils.book_append_sheet(wb, ws, name);
   });
 
@@ -192,7 +192,7 @@ export function exportPowerBI(dataset: DataSet | null) {
     }));
     ws['!cols'] = colWidths;
 
-    const name = chart.title.replace(/^\d+\.\s*/, '').substring(0, 31);
+    const name = chart.title.replace(/^\d+\.\s*/, '').replace(/[:\\/?*\[\]]/g, '-').substring(0, 31);
     XLSX.utils.book_append_sheet(wb, ws, name);
   });
 
