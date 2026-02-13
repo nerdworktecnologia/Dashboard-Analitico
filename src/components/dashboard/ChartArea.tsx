@@ -242,7 +242,7 @@ export function ChartArea() {
               <input
                 value={subtitleOverrides[chart.id] ?? chart.subtitle}
                 onChange={(e) => setSubtitleOverrides(prev => ({ ...prev, [chart.id]: e.target.value }))}
-                className="text-xs text-muted-foreground bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-1 -ml-1 transition-colors"
+                className="text-xs text-foreground/70 bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-1 -ml-1 transition-colors"
               />
             </div>
             <div className="flex items-center gap-2">
@@ -306,7 +306,7 @@ export function ChartArea() {
             <input
               value={sectionSubtitle}
               onChange={(e) => setSectionSubtitle(e.target.value)}
-              className="text-[10px] text-muted-foreground bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-1 -ml-1 transition-colors"
+              className="text-[10px] text-foreground/70 bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-1 -ml-1 transition-colors"
             />
           </div>
         </div>
@@ -334,7 +334,7 @@ export function ChartArea() {
                     value={subtitleOverrides[chart.id] ?? chart.subtitle}
                     onChange={(e) => setSubtitleOverrides(prev => ({ ...prev, [chart.id]: e.target.value }))}
                     onClick={(e) => e.stopPropagation()}
-                    className="text-[8px] text-muted-foreground mt-0.5 bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-0.5 transition-colors truncate"
+                    className="text-[8px] text-foreground/70 mt-0.5 bg-transparent border-none outline-none w-full hover:bg-muted/50 focus:bg-muted/50 rounded px-0.5 transition-colors truncate"
                   />
                 </div>
                 <div className="flex items-center gap-1">
