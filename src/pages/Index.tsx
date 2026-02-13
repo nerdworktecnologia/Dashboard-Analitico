@@ -21,7 +21,7 @@ function DashboardContent() {
       switch (format) {
         case 'png': await exportPNG('chart-export-area'); break;
         case 'pdf': await exportPDF('chart-export-area'); break;
-        case 'excel': exportExcel(activeDataset); break;
+        case 'excel': await exportExcel(activeDataset); break;
         case 'json': exportJSON(activeDataset); break;
         case 'powerbi': exportPowerBI(activeDataset); break;
         case 'pbit': exportPBIT(activeDataset); break;
