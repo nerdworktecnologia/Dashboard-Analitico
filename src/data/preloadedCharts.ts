@@ -1,0 +1,147 @@
+import { ChartType } from '@/types/dashboard';
+
+export interface PreloadedChart {
+  id: string;
+  title: string;
+  subtitle: string;
+  chartType: ChartType;
+  labelKey: string;
+  dataKeys: string[];
+  data: Record<string, any>[];
+}
+
+export const PRELOADED_CHARTS: PreloadedChart[] = [
+  {
+    id: 'q1',
+    title: '1. Uso de IA: Graduação vs Pós-Graduação',
+    subtitle: 'Amostra de 1.508 discentes',
+    chartType: 'column',
+    labelKey: 'Perfil',
+    dataKeys: ['Usam IA (%)', 'Não usam IA (%)'],
+    data: [
+      { Perfil: 'Graduação (967)', 'Usam IA (%)': 80.46, 'Não usam IA (%)': 19.54 },
+      { Perfil: 'Pós-Graduação (541)', 'Usam IA (%)': 84.10, 'Não usam IA (%)': 15.90 },
+    ],
+  },
+  {
+    id: 'q2',
+    title: '2. Uso de IA por Área do Conhecimento',
+    subtitle: 'Comparação entre graduação e pós-graduação por área',
+    chartType: 'bar',
+    labelKey: 'Área',
+    dataKeys: ['Graduação (%)', 'Pós-Graduação (%)'],
+    data: [
+      { Área: 'Humanidades', 'Graduação (%)': 71.08, 'Pós-Graduação (%)': 81.30 },
+      { Área: 'Ciências Exatas', 'Graduação (%)': 89.73, 'Pós-Graduação (%)': 87.50 },
+      { Área: 'Ciências da Saúde', 'Graduação (%)': 91.53, 'Pós-Graduação (%)': 85.83 },
+    ],
+  },
+  {
+    id: 'q3',
+    title: '3. Incidência por Unidade Acadêmica (Top 10)',
+    subtitle: '1.233 discentes que usam IA',
+    chartType: 'bar',
+    labelKey: 'Unidade',
+    dataKeys: ['Graduandos', 'Pós-graduandos'],
+    data: [
+      { Unidade: 'Engenharia', Graduandos: 167, 'Pós-graduandos': 116 },
+      { Unidade: 'ICEx', Graduandos: 117, 'Pós-graduandos': 57 },
+      { Unidade: 'FAFICH', Graduandos: 88, 'Pós-graduandos': 57 },
+      { Unidade: 'Medicina', Graduandos: 83, 'Pós-graduandos': 59 },
+      { Unidade: 'Letras', Graduandos: 77, 'Pós-graduandos': 60 },
+      { Unidade: 'Direito', Graduandos: 49, 'Pós-graduandos': 21 },
+      { Unidade: 'Ciências', Graduandos: 39, 'Pós-graduandos': 35 },
+      { Unidade: 'ICB', Graduandos: 20, 'Pós-graduandos': 47 },
+      { Unidade: 'ECI', Graduandos: 31, 'Pós-graduandos': 28 },
+      { Unidade: 'IGC', Graduandos: 39, 'Pós-graduandos': 12 },
+    ],
+  },
+  {
+    id: 'q4',
+    title: '4. Atividades Priorizadas no Uso de IA',
+    subtitle: 'Frequência: sempre + frequentemente',
+    chartType: 'column',
+    labelKey: 'Atividade',
+    dataKeys: ['Graduação (%)', 'Pós-Graduação (%)'],
+    data: [
+      { Atividade: 'Escrita acadêmica', 'Graduação (%)': 42.15, 'Pós-Graduação (%)': 45.39 },
+      { Atividade: 'Escrita administrativa', 'Graduação (%)': 33.67, 'Pós-Graduação (%)': 35.73 },
+      { Atividade: 'Correção/revisão textos', 'Graduação (%)': 56.42, 'Pós-Graduação (%)': 64.71 },
+      { Atividade: 'Correção avaliações', 'Graduação (%)': 13.11, 'Pós-Graduação (%)': 10.56 },
+    ],
+  },
+  {
+    id: 'q5',
+    title: '5. Pesquisa e Uso de Fontes',
+    subtitle: 'Atividades de pesquisa e informação',
+    chartType: 'bar',
+    labelKey: 'Atividade',
+    dataKeys: ['Graduação (%)', 'Pós-Graduação (%)'],
+    data: [
+      { Atividade: 'Recuperação de informação', 'Graduação (%)': 53.72, 'Pós-Graduação (%)': 58.20 },
+      { Atividade: 'Pergunta direta à ferramenta', 'Graduação (%)': 63.88, 'Pós-Graduação (%)': 54.83 },
+      { Atividade: 'Síntese de textos', 'Graduação (%)': 50.25, 'Pós-Graduação (%)': 54.15 },
+      { Atividade: 'Análise de dados', 'Graduação (%)': 34.70, 'Pós-Graduação (%)': 35.05 },
+      { Atividade: 'Geração de código', 'Graduação (%)': 25.96, 'Pós-Graduação (%)': 36.40 },
+      { Atividade: 'Automação de tarefas', 'Graduação (%)': 34.31, 'Pós-Graduação (%)': 31.46 },
+      { Atividade: 'Geração imagens/sons', 'Graduação (%)': 14.65, 'Pós-Graduação (%)': 20.00 },
+      { Atividade: 'Transcrição', 'Graduação (%)': 21.59, 'Pós-Graduação (%)': 30.55 },
+      { Atividade: 'Tradução', 'Graduação (%)': 35.60, 'Pós-Graduação (%)': 62.47 },
+    ],
+  },
+  {
+    id: 'q6',
+    title: '6. Aceitabilidade vs Frequência de Uso',
+    subtitle: 'Inaceitável + Parcialmente vs Nunca + Raramente',
+    chartType: 'column',
+    labelKey: 'Atividade',
+    dataKeys: ['Inaceitável Grad (%)', 'Nunca+Raro Grad (%)'],
+    data: [
+      { Atividade: 'Escrita acadêmica', 'Inaceitável Grad (%)': 57.84, 'Nunca+Raro Grad (%)': 76.47 },
+      { Atividade: 'Escrita administrativa', 'Inaceitável Grad (%)': 55.01, 'Nunca+Raro Grad (%)': 43.57 },
+      { Atividade: 'Correção/revisão', 'Inaceitável Grad (%)': 43.57, 'Nunca+Raro Grad (%)': 48.32 },
+      { Atividade: 'Correção avaliações', 'Inaceitável Grad (%)': 86.88, 'Nunca+Raro Grad (%)': 86.88 },
+    ],
+  },
+  {
+    id: 'q7',
+    title: '7. Ferramentas de IA Mais Utilizadas',
+    subtitle: 'Comparação entre graduação e pós-graduação',
+    chartType: 'column',
+    labelKey: 'Ferramenta',
+    dataKeys: ['Graduação (%)', 'Pós-Graduação (%)'],
+    data: [
+      { Ferramenta: 'Chats generativos', 'Graduação (%)': 98.84, 'Pós-Graduação (%)': 98.46 },
+      { Ferramenta: 'Assistentes integrados', 'Graduação (%)': 30.21, 'Pós-Graduação (%)': 36.04 },
+      { Ferramenta: 'Editores imagem/som', 'Graduação (%)': 9.51, 'Pós-Graduação (%)': 15.16 },
+      { Ferramenta: 'API/integração', 'Graduação (%)': 4.76, 'Pós-Graduação (%)': 8.57 },
+      { Ferramenta: 'Modelos avançados', 'Graduação (%)': 5.53, 'Pós-Graduação (%)': 9.23 },
+    ],
+  },
+  {
+    id: 'q8',
+    title: '8. Busca e Recuperação de Informação',
+    subtitle: 'Uso frequente (sempre + frequentemente)',
+    chartType: 'column',
+    labelKey: 'Atividade',
+    dataKeys: ['Graduação (%)', 'Pós-Graduação (%)'],
+    data: [
+      { Atividade: 'Pesquisa de fontes', 'Graduação (%)': 53.72, 'Pós-Graduação (%)': 56.92 },
+      { Atividade: 'Pergunta direta', 'Graduação (%)': 63.88, 'Pós-Graduação (%)': 53.62 },
+    ],
+  },
+  {
+    id: 'q9',
+    title: '9. Percepção de Confiabilidade da IA',
+    subtitle: 'Nível de confiança nos resultados',
+    chartType: 'pie',
+    labelKey: 'Confiança',
+    dataKeys: ['Graduação', 'Pós-Graduação'],
+    data: [
+      { Confiança: 'Confio', Graduação: 11, 'Pós-Graduação': 3 },
+      { Confiança: 'Confio em parte', Graduação: 638, 'Pós-Graduação': 362 },
+      { Confiança: 'Não confio', Graduação: 106, 'Pós-Graduação': 67 },
+      { Confiança: 'Outras', Graduação: 23, 'Pós-Graduação': 23 },
+    ],
+  },
+];
