@@ -240,7 +240,7 @@ export function ChartArea() {
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-[11px] font-bold text-foreground leading-tight truncate">{chart.title}</h4>
+                  <h4 className="text-[11px] font-bold text-foreground leading-tight">{chart.title}</h4>
                   <p className="text-[9px] text-muted-foreground mt-0.5">{chart.subtitle}</p>
                 </div>
                 <Maximize2 className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity ml-2 flex-shrink-0" />
