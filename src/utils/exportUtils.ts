@@ -140,7 +140,9 @@ export function exportExcel(dataset: DataSet | null) {
     XLSX.utils.book_append_sheet(wb, ws, 'Dados Importados');
   }
 
-  XLSX.writeFile(wb, 'dashboard-analitico-ufmg.xlsx');
+  const excelBuf = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const excelBlob = new Blob([excelBuf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  saveAs(excelBlob, 'dashboard-analitico-ufmg.xlsx');
 
   // Also export the dashboard as PNG alongside
   const el = document.getElementById('chart-export-area');
@@ -211,7 +213,9 @@ export function exportPowerBI(dataset: DataSet | null) {
   summaryWs['!cols'] = [{ wch: 45 }, { wch: 40 }, { wch: 10 }, { wch: 10 }, { wch: 40 }];
   XLSX.utils.book_append_sheet(wb, summaryWs, 'Resumo');
 
-  XLSX.writeFile(wb, 'dashboard-powerbi-ufmg.xlsx');
+  const pbieBuf = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+  const pbieBlob = new Blob([pbieBuf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  saveAs(pbieBlob, 'dashboard-powerbi-ufmg.xlsx');
 }
 
 export function exportPBIT(dataset: DataSet | null) {
