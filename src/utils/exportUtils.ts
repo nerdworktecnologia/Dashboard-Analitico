@@ -13,37 +13,59 @@ export async function exportPNG(elementId: string) {
 }
 
 export async function exportPDF(elementId: string) {
-  const el = document.getElementById(elementId);
-  if (!el) return;
-  const dataUrl = await toPng(el, { backgroundColor: '#ffffff', pixelRatio: 2 });
   const pdf = new jsPDF('landscape', 'mm', 'a4');
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = pdf.internal.pageSize.getHeight();
 
-  pdf.setFontSize(20);
+  // Title page
+  pdf.setFontSize(28);
   pdf.setTextColor(30, 58, 95);
-  pdf.text('Dashboard Analítico', pdfWidth / 2, 40, { align: 'center' });
-  pdf.setFontSize(14);
-  pdf.text('Uso de IA no Meio Acadêmico – UFMG', pdfWidth / 2, 52, { align: 'center' });
-  pdf.setFontSize(10);
+  pdf.text('Dashboard Analítico', pdfWidth / 2, 55, { align: 'center' });
+  pdf.setFontSize(18);
+  pdf.text('Uso de IA no Meio Acadêmico – UFMG', pdfWidth / 2, 70, { align: 'center' });
+  pdf.setFontSize(12);
   pdf.setTextColor(100);
-  pdf.text(`Gerado em: ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`, pdfWidth / 2, 64, { align: 'center' });
-  pdf.text('Dados de 1.508 discentes • 9 gráficos', pdfWidth / 2, 72, { align: 'center' });
+  pdf.text(`Gerado em: ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`, pdfWidth / 2, 90, { align: 'center' });
+  pdf.text('Dados de 1.508 discentes • 9 gráficos', pdfWidth / 2, 100, { align: 'center' });
 
-  pdf.addPage('landscape');
-  const imgProps = pdf.getImageProperties(dataUrl);
-  const imgAspect = imgProps.width / imgProps.height;
-  let drawW = pdfWidth - 20;
-  let drawH = drawW / imgAspect;
-  if (drawH > pdfHeight - 20) {
-    drawH = pdfHeight - 20;
-    drawW = drawH * imgAspect;
+  // One page per chart
+  for (const chart of PRELOADED_CHARTS) {
+    pdf.addPage('landscape');
+    
+    // Chart title
+    pdf.setFontSize(16);
+    pdf.setTextColor(30, 58, 95);
+    pdf.text(chart.title, 15, 18);
+    pdf.setFontSize(10);
+    pdf.setTextColor(120);
+    pdf.text(chart.subtitle, 15, 26);
+
+    // Try to capture chart element image
+    const chartEl = document.querySelector(`[data-chart-id="${chart.id}"]`) as HTMLElement;
+    if (chartEl) {
+      try {
+        const dataUrl = await toPng(chartEl, { backgroundColor: '#ffffff', pixelRatio: 2 });
+        const imgProps = pdf.getImageProperties(dataUrl);
+        const imgAspect = imgProps.width / imgProps.height;
+        const margin = 15;
+        let drawW = pdfWidth - margin * 2;
+        let drawH = drawW / imgAspect;
+        const maxH = pdfHeight - 35 - margin;
+        if (drawH > maxH) {
+          drawH = maxH;
+          drawW = drawH * imgAspect;
+        }
+        const x = (pdfWidth - drawW) / 2;
+        pdf.addImage(dataUrl, 'PNG', x, 32, drawW, drawH);
+      } catch {
+        pdf.setFontSize(12);
+        pdf.setTextColor(150);
+        pdf.text('Gráfico não pôde ser capturado.', pdfWidth / 2, pdfHeight / 2, { align: 'center' });
+      }
+    }
   }
-  const x = (pdfWidth - drawW) / 2;
-  const y = (pdfHeight - drawH) / 2;
-  pdf.addImage(dataUrl, 'PNG', x, y, drawW, drawH);
 
-  pdf.save('dashboard-analitico-ufmg.pdf');
+  pdf.save('dashboard-mestrado-ufmg.pdf');
 }
 
 export function exportExcel(dataset: DataSet | null) {

@@ -1,4 +1,4 @@
-import { Upload, Type, Clock, Image, FileText, Sheet, FileJson, BarChart3, Printer, Palette, Presentation } from 'lucide-react';
+import { Upload, Type, Clock, Image, FileText, Sheet, FileJson, BarChart3, Printer, Palette, Presentation, Maximize } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useDashboard } from '@/context/DashboardContext';
@@ -10,9 +10,10 @@ interface SidebarProps {
   onImportText: () => void;
   onShowHistory: () => void;
   onExport: (format: string) => void;
+  onPresent: () => void;
 }
 
-export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport }: SidebarProps) {
+export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport, onPresent }: SidebarProps) {
   const { theme, setTheme, font, setFont } = useDashboard();
 
   return (
@@ -65,6 +66,12 @@ export function Sidebar({ onImportFile, onImportText, onShowHistory, onExport }:
         </Button>
         <Button variant="outline" size="sm" className="w-full mt-1 text-xs hover:bg-primary/5 hover:border-primary/30 transition-all duration-200" onClick={() => onExport('print')}>
           <Printer className="h-3.5 w-3.5 mr-1" /> Imprimir A4
+        </Button>
+
+        <Separator className="my-2" />
+
+        <Button variant="default" size="sm" className="w-full text-xs gap-1.5" onClick={onPresent}>
+          <Maximize className="h-3.5 w-3.5" /> Apresentar Fullscreen
         </Button>
       </section>
 
