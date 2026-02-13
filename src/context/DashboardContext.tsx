@@ -27,7 +27,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     datasets: [],
     activeDataset: null,
     chartType: 'bar',
-    theme: 'academico',
+    theme: 'powerbi',
     font: 'Inter (padrão)',
     darkMode: false,
   });
