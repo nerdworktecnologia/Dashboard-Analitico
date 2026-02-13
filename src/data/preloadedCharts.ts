@@ -167,8 +167,8 @@ export const PRELOADED_CHARTS: PreloadedChart[] = [
     labelKey: 'Atividade',
     dataKeys: ['Graduação (%)', 'Pós-Graduação (%)'],
     data: [
-      { Atividade: 'Pesquisa de fontes', 'Graduação (%)': 53.72, 'Pós-Graduação (%)': 56.92 },
-      { Atividade: 'Pergunta direta', 'Graduação (%)': 63.88, 'Pós-Graduação (%)': 53.62 },
+      { Atividade: 'Pesquisa de fontes e links (Recuperação da Informação)', 'Graduação (%)': 53.72, 'Pós-Graduação (%)': 56.92 },
+      { Atividade: 'Obtenção de Dados por meio de perguntas à ferramenta', 'Graduação (%)': 63.88, 'Pós-Graduação (%)': 53.62 },
     ],
   },
   {
