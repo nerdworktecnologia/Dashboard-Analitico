@@ -1,5 +1,6 @@
 import PptxGenJS from 'pptxgenjs';
 import { toPng } from 'html-to-image';
+import { saveAs } from 'file-saver';
 import { PRELOADED_CHARTS } from '@/data/preloadedCharts';
 
 export async function exportPowerPoint() {
@@ -79,7 +80,8 @@ export async function exportPowerPoint() {
   });
 
   console.log('[PPTX] Writing file...');
-  await pptx.writeFile({ fileName: 'dashboard-mestrado-ufmg.pptx' });
+  const blob = await pptx.write({ outputType: 'blob' }) as Blob;
+  saveAs(blob, 'dashboard-mestrado-ufmg.pptx');
   console.log('[PPTX] Export complete!');
 }
 
