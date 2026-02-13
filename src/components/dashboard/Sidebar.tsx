@@ -4,7 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 
-const IMPORT_PASSWORD = '1931';
+const IMPORT_PASSWORD_HASH = 'a0143f1f8e0a1c74af74ef88ee8ac42ac8feee497e5f21c2c94471e0a93eab85';
+
+async function hashPassword(pw: string): Promise<string> {
+  const encoded = new TextEncoder().encode(pw);
+  const buffer = await crypto.subtle.digest('SHA-256', encoded);
+  return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 interface SidebarProps {
   collapsed: boolean;
@@ -21,8 +27,9 @@ export function Sidebar({ collapsed, onImportFile, onImportText, onShowHistory, 
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
 
-  const handleUnlock = () => {
-    if (password === IMPORT_PASSWORD) {
+  const handleUnlock = async () => {
+    const hashed = await hashPassword(password);
+    if (hashed === IMPORT_PASSWORD_HASH) {
       setUnlocked(true);
       setShowPasswordInput(false);
       setPassword('');
