@@ -179,12 +179,12 @@ export const PRELOADED_CHARTS: PreloadedChart[] = [
     id: 'q8',
     title: '8. Busca e Recuperação de Informação',
     subtitle: 'Uso frequente (sempre + frequentemente)',
-    chartType: 'column',
+    chartType: 'bar',
     labelKey: 'Atividade',
     dataKeys: ['Graduação (%)', 'Pós-Graduação (%)'],
     data: [
-      { Atividade: 'Pesquisa de fontes e links (Recuperação da Informação)', 'Graduação (%)': 53.72, 'Pós-Graduação (%)': 56.92 },
-      { Atividade: 'Obtenção de Dados por meio de perguntas à ferramenta', 'Graduação (%)': 63.88, 'Pós-Graduação (%)': 53.62 },
+      { Atividade: 'Pesquisa de fontes e links: Recuperação da Informação', 'Graduação (%)': 53.72, 'Pós-Graduação (%)': 56.92 },
+      { Atividade: 'Obtenção de dados e informações por meio de pergunta direta a ferramenta', 'Graduação (%)': 63.88, 'Pós-Graduação (%)': 53.62 },
     ],
   },
   {
