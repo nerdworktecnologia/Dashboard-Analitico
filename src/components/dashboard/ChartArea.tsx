@@ -86,7 +86,7 @@ export function ChartArea() {
           <ResponsiveContainer width="100%" height={height}>
             <BarChart data={data} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis type="number" tick={{ fontSize: 10 }} />
+              <XAxis type="number" tick={{ fontSize: 10 }} domain={[0, 100]} ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]} />
               <YAxis dataKey={lKey} type="category" width={110} tick={{ fontSize: 9 }} />
               <Tooltip contentStyle={tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 10 }} />
